@@ -63,7 +63,7 @@ class _DataPageState extends State<DataPage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   Text(
-                    'X: ${state.accelerometerData?.x.toStringAsFixed(2) ?? '-'} Y: ${state.accelerometerData?.y.toStringAsFixed(2) ?? '-'} Z: ${state.accelerometerData?.z.toStringAsFixed(2) ?? '-'}',
+                    'X: ${state.accelerometerData?.x.toStringAsFixed(2) ?? 'X'} Y: ${state.accelerometerData?.y.toStringAsFixed(2) ?? 'X'} Z: ${state.accelerometerData?.z.toStringAsFixed(2) ?? 'X'}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 16),
@@ -72,7 +72,7 @@ class _DataPageState extends State<DataPage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   Text(
-                    'Latitude: ${state.gpsData?.latitude?.toStringAsFixed(5) ?? '-'} Longitude: ${state.gpsData?.longitude?.toStringAsFixed(5) ?? '-'}',
+                    'Latitude: ${state.gpsData?.latitude?.toStringAsFixed(5) ?? 'X'} Longitude: ${state.gpsData?.longitude?.toStringAsFixed(5) ?? 'X'}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(
@@ -87,7 +87,7 @@ class _DataPageState extends State<DataPage> {
               );
             } else {
               return const Text(
-                'No data yet',
+                'Enable GPS Permissions',
                 style: TextStyle(fontSize: 20),
               );
             }
