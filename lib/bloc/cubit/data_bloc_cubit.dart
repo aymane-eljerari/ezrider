@@ -12,6 +12,7 @@ class DataBlocCubit extends Cubit<DataBlocState> {
 
   StreamSubscription? _accelerometerSubscription;
   StreamSubscription<LocationData>? _locationSubscription;
+  PermissionStatus? _permissionSubscription;
 
   void startRecording() {
     _accelerometerSubscription = Stream.periodic(const Duration(seconds: 1))
@@ -40,15 +41,20 @@ class DataBlocCubit extends Cubit<DataBlocState> {
     emit(DataBlocInitial());
   }
 
-  Future<PermissionStatus> isPermission() async {
-    PermissionStatus persmission = await Location.instance.hasPermission();
+  void requestPermission() async {
+    PermissionStatus permissionSubscription =
+        await Location.instance.hasPermission();
 
-    if ((persmission == PermissionStatus.denied) ||
-        (persmission == PermissionStatus.deniedForever)) {
+    if ((permissionSubscription == PermissionStatus.denied) ||
+        (permissionSubscription == PermissionStatus.deniedForever)) {
       Location.instance.requestService();
-      return persmission;
     }
-    return persmission;
+    emit(DataUpdated(
+        accelerometerData: state is DataUpdated
+            ? (state as DataUpdated).accelerometerData
+            : null,
+        gpsData: state is DataUpdated ? (state as DataUpdated).gpsData : null,
+        permissionStatus: permissionSubscription));
   }
 
   void setSettings(LocationAccuracy accuracy, double distanceFilter) async {

@@ -12,12 +12,11 @@ class DataBlocInitial extends DataBlocState {}
 class DataUpdated extends DataBlocState {
   final UserAccelerometerEvent? accelerometerData;
   final LocationData? gpsData;
+  final PermissionStatus? permissionStatus;
 
-  const DataUpdated({
-    this.accelerometerData,
-    this.gpsData,
-  });
+  const DataUpdated(
+      {this.accelerometerData, this.gpsData, this.permissionStatus});
 
   @override
-  List<Object?> get props => [accelerometerData, gpsData];
+  List<Object?> get props => [accelerometerData, gpsData, permissionStatus];
 }

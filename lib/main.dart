@@ -8,8 +8,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -77,6 +75,14 @@ class _DataPageState extends State<DataPage> {
                     'Latitude: ${state.gpsData?.latitude?.toStringAsFixed(5) ?? '-'} Longitude: ${state.gpsData?.longitude?.toStringAsFixed(5) ?? '-'}',
                     style: const TextStyle(fontSize: 16),
                   ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  FloatingActionButton(
+                      child: const Icon(Icons.my_location_rounded),
+                      onPressed: () {
+                        _dataBloc.requestPermission();
+                      }),
                 ],
               );
             } else {
