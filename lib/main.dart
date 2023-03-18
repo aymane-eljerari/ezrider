@@ -1,6 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:ezrider/bloc/cubit/data_bloc_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ezrider/cubit/cubit/data_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: const DataPage(title: 'Flutter Demo Home Page'),
     );
@@ -30,17 +32,17 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> {
-  final DataBlocCubit _dataBloc = DataBlocCubit();
+  final DataCubit _dataCubit = DataCubit(timeInterval: 1000);
 
   @override
   void initState() {
     super.initState();
-    _dataBloc.startRecording();
+    _dataCubit.getAvailableCameras();
   }
 
   @override
   void dispose() {
-    _dataBloc.stopRecording();
+    _dataCubit.stopRecording();
     super.dispose();
   }
 
@@ -48,22 +50,69 @@ class _DataPageState extends State<DataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Page'),
+        title: const Text('EZRider'),
       ),
       body: Center(
-        child: BlocBuilder<DataBlocCubit, DataBlocState>(
-          bloc: _dataBloc,
+        child: BlocBuilder<DataCubit, DataState>(
+          bloc: _dataCubit,
           builder: (context, state) {
-            if (state is DataUpdated) {
+            if (state is DataInitial) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const Text(
+                    'Press the button to enable persmissions',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FloatingActionButton(
+                      child: const Icon(Icons.my_location_rounded),
+                      onPressed: () {
+                        _dataCubit.requestPermission();
+                      }),
+                ],
+              );
+            }
+            if (state is PermissionsGranted) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Press the button to start recording',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FloatingActionButton(
+                      child: const Icon(Icons.play_arrow_rounded),
+                      onPressed: () {
+                        _dataCubit.startRecording();
+                      }),
+                ],
+              );
+            }
+            if (state is PermissionsDenied) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'App Permissions have not been granted',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              );
+            }
+            if (state is Recording) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: CameraPreview(_dataCubit.controller),
+                  ),
                   const Text(
                     'Accelerometer Data:',
                     style: TextStyle(fontSize: 20),
                   ),
                   Text(
-                    'X: ${state.accelerometerData?.x.toStringAsFixed(2) ?? 'X'} Y: ${state.accelerometerData?.y.toStringAsFixed(2) ?? 'X'} Z: ${state.accelerometerData?.z.toStringAsFixed(2) ?? 'X'}',
+                    'X: ${state.accelerometer?.x.toStringAsFixed(2) ?? 'X'} Y: ${state.accelerometer?.y.toStringAsFixed(2) ?? 'X'} Z: ${state.accelerometer?.z.toStringAsFixed(2) ?? 'X'}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 16),
@@ -72,17 +121,18 @@ class _DataPageState extends State<DataPage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   Text(
-                    'Latitude: ${state.gpsData?.latitude?.toStringAsFixed(5) ?? 'X'} Longitude: ${state.gpsData?.longitude?.toStringAsFixed(5) ?? 'X'}',
+                    'Latitude: ${state.location?.latitude?.toStringAsFixed(5) ?? 'X'} Longitude: ${state.location?.longitude?.toStringAsFixed(5) ?? 'X'}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(
-                    height: 100,
+                    height: 20,
                   ),
                   FloatingActionButton(
-                      child: const Icon(Icons.my_location_rounded),
-                      onPressed: () {
-                        _dataBloc.requestPermission();
-                      }),
+                    child: const Icon(Icons.cancel_outlined),
+                    onPressed: () {
+                      _dataCubit.stopRecording();
+                    },
+                  )
                 ],
               );
             } else {

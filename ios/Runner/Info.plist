@@ -2,6 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_dartobservatory._tcp</string>
@@ -11,6 +12,10 @@
 		<key>UISceneConfigurations</key>
 		<dict/>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We are not recording microphone data</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Your camera is required to take pictures of potholes</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>Your location is required to collect accelerometer data</string>
 	<key>CFBundleDevelopmentRegion</key>

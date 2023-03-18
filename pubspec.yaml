@@ -40,6 +40,9 @@ dependencies:
   location: ^4.4.0
   sensors_plus: ^2.0.2
   bloc: ^8.1.1
+  camera: ^0.10.3+2
+  flutter_image: ^4.1.5
+  image: ^4.0.15
 
 dev_dependencies:
   flutter_test:
