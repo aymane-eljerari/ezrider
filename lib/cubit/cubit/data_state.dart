@@ -12,11 +12,13 @@ class DataInitial extends DataState {}
 class Recording extends DataState {
   final UserAccelerometerEvent? accelerometer;
   final LocationData? location;
-  final File? image;
-  const Recording(
-      {required this.accelerometer,
-      required this.location,
-      required this.image});
+  final String? image;
+
+  const Recording({
+    required this.accelerometer,
+    required this.location,
+    required this.image,
+  });
 
   @override
   List<Object?> get props => [accelerometer, location, image];
