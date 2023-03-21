@@ -266,6 +266,7 @@ class DataCubit extends Cubit<DataState> {
     }
 
     print('All files uploaded');
+    deleteData();
   }
 
   // Future<void> uploadDataToFirebase({
