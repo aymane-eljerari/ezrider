@@ -33,6 +33,8 @@ class DataCubit extends Cubit<DataState> {
   StreamSubscription? _cameraSubscription;
 
   void startRecording() {
+    deleteData();
+
     String imagePath;
 
     _cameraSubscription = Stream.periodic(Duration(milliseconds: timeInterval))
