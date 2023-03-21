@@ -12,8 +12,8 @@ The data we store is completely anonymous. Here is a JSON object showing a sampl
   "x":0.18534222394227984,
   "y":0.04553083181381226,
   "z":0.010495567321777345,
-  "lat":42.34766260841556,
-  "long":-71.07988141788043
+  "lat":42.54766260841556,
+  "long":-71.37988141788043
   }
 }
 ```
