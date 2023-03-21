@@ -11,4 +11,4 @@ A Flutter mobile app to collect different data modalities for a pothole location
 ![Image2](screenshots/IMG_6496.PNG )
 
 1. Stop Recording
-![Image3](screenshots/IMG_6498.PNG)
+![Image3](screenshots/IMG_6510.PNG)
