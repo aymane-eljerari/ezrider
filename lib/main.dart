@@ -1,14 +1,28 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ezrider/cubit/cubit/data_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:path_provider/path_provider.dart';
+
+String generateRandomString(int length) {
+  var rng = Random();
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  return String.fromCharCodes(Iterable.generate(
+      length, (_) => chars.codeUnitAt(rng.nextInt(chars.length))));
+}
 
 late List<CameraDescription> _cameras;
+var uuid = generateRandomString(30);
+late Directory appDocDir;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _cameras = await availableCameras();
+  appDocDir = await getApplicationDocumentsDirectory();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -38,7 +52,8 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> with WidgetsBindingObserver {
-  final DataCubit _dataCubit = DataCubit(timeInterval: 1000);
+  final DataCubit _dataCubit =
+      DataCubit(timeInterval: 1000, uuid: uuid, directory: appDocDir);
   late CameraController controller;
 
   @override
@@ -205,7 +220,7 @@ class _DataPageState extends State<DataPage> with WidgetsBindingObserver {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Stored'),
+                              content: Text('Stored Data Locally'),
                               duration: Duration(milliseconds: 1000),
                             ),
                           );

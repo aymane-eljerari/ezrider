@@ -14,13 +14,18 @@ import 'package:sensors_plus/sensors_plus.dart';
 part 'data_state.dart';
 
 class DataCubit extends Cubit<DataState> {
-  DataCubit({required this.timeInterval}) : super(DataInitial());
+  DataCubit(
+      {required this.timeInterval, required this.uuid, required this.directory})
+      : super(DataInitial());
 
   final int timeInterval;
   late String dateTime;
+  String uuid;
+  Directory directory;
 
   late CameraController controller;
   Map<String, Map<String, dynamic>> collectedData = {};
+
   // Map<DateTime, String> imageData = {};
 
   StreamSubscription? _locationSubscription;
@@ -30,13 +35,11 @@ class DataCubit extends Cubit<DataState> {
   void startRecording() {
     String imagePath;
 
-    Timer.periodic(Duration(milliseconds: timeInterval), (timer) {
-      dateTime = DateTime.now().toIso8601String();
-    });
-
     _cameraSubscription = Stream.periodic(Duration(milliseconds: timeInterval))
         .asyncMap((_) => takePicture())
         .listen((File image) async {
+      dateTime = DateTime.now().toIso8601String();
+
       imagePath = image.path;
       collectedData[dateTime] = {"path": imagePath};
       emit(Recording(
@@ -49,11 +52,11 @@ class DataCubit extends Cubit<DataState> {
         Stream.periodic(Duration(milliseconds: timeInterval))
             .asyncMap((_) => userAccelerometerEvents.first)
             .listen((UserAccelerometerEvent accelerometerEvent) {
-      collectedData[dateTime] = {
+      collectedData[dateTime]?.addAll({
         "x": accelerometerEvent.x,
         "y": accelerometerEvent.y,
         "z": accelerometerEvent.z,
-      };
+      });
       emit(Recording(
         accelerometer: accelerometerEvent,
         location: state is Recording ? (state as Recording).location : null,
@@ -65,10 +68,10 @@ class DataCubit extends Cubit<DataState> {
         Stream.periodic(Duration(milliseconds: timeInterval))
             .asyncMap((_) => Location.instance.getLocation())
             .listen((LocationData locationData) {
-      collectedData[dateTime] = {
+      collectedData[dateTime]?.addAll({
         "lat": locationData.latitude,
         "long": locationData.longitude,
-      };
+      });
       emit(Recording(
         accelerometer:
             state is Recording ? (state as Recording).accelerometer : null,
@@ -76,15 +79,6 @@ class DataCubit extends Cubit<DataState> {
         image: state is Recording ? (state as Recording).image : null,
       ));
     });
-
-    appendData(
-        dateTime,
-        collectedData[dateTime]!['x'],
-        collectedData[dateTime]!['y'],
-        collectedData[dateTime]!['z'],
-        collectedData[dateTime]!['lat'],
-        collectedData[dateTime]!['long'],
-        collectedData[dateTime]!['path']);
   }
 
   void stopRecording() {
@@ -129,28 +123,27 @@ class DataCubit extends Cubit<DataState> {
     ));
   }
 
-  Future<String> saveImage(File imageFile) async {
-    Directory appDir = await getApplicationDocumentsDirectory();
-    String imagesDirPath = '${appDir.path}/images';
-    Directory(imagesDirPath).createSync(recursive: true);
-    String imagePath =
-        '$imagesDirPath/${DateTime.now().millisecondsSinceEpoch}.jpg';
-    await imageFile.copy(imagePath);
-    return imagePath;
-  }
+  // Future<String> saveImage(File imageFile) async {
+  //   String imagesDirPath = '${directory.path}/images';
+  //   Directory(imagesDirPath).createSync(recursive: true);
+  //   String imagePath =
+  //       '$imagesDirPath/${DateTime.now().millisecondsSinceEpoch}.jpg';
+  //   await imageFile.copy(imagePath);
+  //   return imagePath;
+  // }
 
-  void appendData(String dateTime, double x, double y, double z, double lat,
-      double lon, String path) {
-    // Append new values to collectedData
-    collectedData[dateTime] = {
-      'x': x,
-      'y': y,
-      'z': z,
-      'lat': lat,
-      'long': lon,
-      'path': path,
-    };
-  }
+  // void appendData(String dateTime, double x, double y, double z, double lat,
+  //     double lon, String path) {
+  //   // Append new values to collectedData
+  //   finalData[dateTime] = {
+  //     'x': x,
+  //     'y': y,
+  //     'z': z,
+  //     'lat': lat,
+  //     'long': lon,
+  //     'path': path,
+  //   };
+  // }
 
   void storeData(
       {required Map<String, Map<String, dynamic>> collectedData}) async {
@@ -158,21 +151,17 @@ class DataCubit extends Cubit<DataState> {
     final String dataJson = json.encode(collectedData);
 
     // Get the directory where the application can save files.
-    Directory appDocDir = await getApplicationDocumentsDirectory();
 
     // Get the path to the directory where we will save the data and images.
-    String dataPath = "${appDocDir.path}/data/data.json";
-    String imagesPath = "${appDocDir.path}/data/images";
+    String dataPath = "${directory.path}/data/$uuid.json";
+    String imagesPath = "${directory.path}/data/images/";
 
     // Create the directories if they don't exist
     Directory(imagesPath).createSync(recursive: true);
 
     // Store images and update the image paths in collectedData
-    print(collectedData.entries);
+    print(collectedData);
     await Future.forEach(collectedData.entries, (entry) async {
-      print(entry);
-      print("------");
-      print(entry.value['path']);
       String imagePath = entry.value['path'].toString();
       String imageName = "${entry.key}.jpg";
       File imageFile = File("$imagesPath/$imageName");
@@ -227,11 +216,10 @@ class DataCubit extends Cubit<DataState> {
     collectedData.clear();
     try {
       // Get the directory where the application can save files.
-      Directory appDocDir = await getApplicationDocumentsDirectory();
 
       // Get the path to the directory where the data and images are stored.
-      String imagesPath = "${appDocDir.path}/data/images";
-      String dataPath = "${appDocDir.path}/data/data.json";
+      String imagesPath = "${directory.path}/data/images/";
+      String dataPath = "${directory.path}/data/$uuid.json";
 
       // Delete the images
       final imagesDir = Directory(imagesPath);
@@ -253,13 +241,13 @@ class DataCubit extends Cubit<DataState> {
     Directory appDocDir = await getApplicationDocumentsDirectory();
 
     // Get the path to the directory where the data and images are stored.
-    String imagesPath = "${appDocDir.path}/data/images";
-    String dataPath = "${appDocDir.path}/data/data.json";
+    String imagesPath = "${appDocDir.path}/data/images/";
+    String dataPath = "${appDocDir.path}/data/$uuid.json";
     // Initialize Firebase
     final storage = FirebaseStorage.instance;
 
     // Upload the data file
-    final dataRef = storage.ref().child('data.json');
+    final dataRef = storage.ref('data').child('$uuid/data.json');
     final dataFile = File(dataPath);
     await dataRef.putFile(dataFile).whenComplete(() => print('Data uploaded'));
 
@@ -269,7 +257,7 @@ class DataCubit extends Cubit<DataState> {
 
     for (var image in images) {
       final imageName = image.path.split('/').last;
-      final imageRef = storage.ref().child('images/$imageName');
+      final imageRef = storage.ref('images').child('$uuid/$imageName');
       Uint8List bytes = await File(image.path).readAsBytes();
       final imageData = bytes;
       await imageRef
