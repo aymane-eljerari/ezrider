@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>574969225212-53fg78v64hlsm9bmiubp0k2783o1b5hs.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.574969225212-53fg78v64hlsm9bmiubp0k2783o1b5hs</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCTtlCvLkeVQbKxlkBpBY5nF6tB8whhoPs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>574969225212</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.ezrider</string>
+	<key>PROJECT_ID</key>
+	<string>ezrider-74743</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ezrider-74743.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:574969225212:ios:cc89f6a85f1d920a261c79</string>
+	<key>GMSApiKey</key>
+	<string>AIzaSyDUTBItdUHOTjN0nuKJ42LFGIQQG52df1c</string>
+</dict>
+</plist>

@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ezrider/cubit/cubit/data_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 String generateRandomString(int length) {
   var rng = Random();
@@ -19,6 +21,7 @@ late List<CameraDescription> _cameras;
 var uuid = generateRandomString(30);
 late Directory appDocDir;
 
+// entry point of app
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _cameras = await availableCameras();
@@ -33,14 +36,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'EZ Rider',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: const DataPage(title: 'Flutter Demo Home Page'),
+      home: const DataPage(title: 'EZ Rider Home Page'),
     );
   }
 }
+
+
 
 class DataPage extends StatefulWidget {
   final String title;
@@ -52,9 +57,11 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> with WidgetsBindingObserver {
+  
   final DataCubit _dataCubit =
       DataCubit(timeInterval: 1000, uuid: uuid, directory: appDocDir);
   late CameraController controller;
+  
 
   @override
   void initState() {
@@ -194,6 +201,18 @@ class _DataPageState extends State<DataPage> with WidgetsBindingObserver {
                             },
                           ),
                         ],
+                      ),Row(
+                        children: [
+                          ElevatedButton(
+                            child: const Text("Display Map"),
+                            onPressed: () {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SecondPage()),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -254,3 +273,52 @@ class _DataPageState extends State<DataPage> with WidgetsBindingObserver {
     );
   }
 }
+
+class SecondPage extends StatefulWidget {
+  const SecondPage({Key? key}) : super(key: key);
+
+  @override
+  _SecondPageState createState() => _SecondPageState();
+}
+
+class _SecondPageState extends State<SecondPage> {
+  final Set<Marker> _markers = {
+    const Marker(
+      markerId: MarkerId('marker1'),
+      position: LatLng(42.34989, -71.106804),
+      infoWindow: InfoWindow(
+        title: 'Rough Road',
+        snippet: 'This road has potholes.',
+      ),
+    ),
+    const Marker(
+      markerId: MarkerId('marker2'),
+      position: LatLng(42.34961, -71.1032),
+      infoWindow: InfoWindow(
+        title: 'Rough Road',
+        snippet: 'This road has potholes.',
+      ),
+    ),
+  };
+
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Rough Road Locations'),
+      ),
+      body: GoogleMap(
+        initialCameraPosition: const CameraPosition(
+          target: LatLng(42.3505, -71.1054), // initial location on the map
+          zoom: 15, // zoom level
+        ),
+        mapType: MapType.normal, // map type
+        myLocationEnabled: true, // enable current location button
+        markers: _markers,
+      ),
+    );
+  }
+}
+
+
+
