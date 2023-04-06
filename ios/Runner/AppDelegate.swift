@@ -12,7 +12,7 @@ import GoogleMaps
     if FirebaseApp.app() == nil {
       FirebaseApp.configure()
     }
-    GMSServices.provideAPIKey("AIzaSyDUTBItdUHOTjN0nuKJ42LFGIQQG52df1c")
+    GMSServices.provideAPIKey("")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

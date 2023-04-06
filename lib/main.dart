@@ -8,6 +8,9 @@ import 'package:ezrider/cubit/cubit/data_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+
 
 
 String generateRandomString(int length) {
@@ -282,43 +285,65 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  final Set<Marker> _markers = {
-    const Marker(
-      markerId: MarkerId('marker1'),
-      position: LatLng(42.34989, -71.106804),
-      infoWindow: InfoWindow(
-        title: 'Rough Road',
-        snippet: 'This road has potholes.',
-      ),
-    ),
-    const Marker(
-      markerId: MarkerId('marker2'),
-      position: LatLng(42.34961, -71.1032),
-      infoWindow: InfoWindow(
-        title: 'Rough Road',
-        snippet: 'This road has potholes.',
-      ),
-    ),
-  };
+  final Set<Marker> _markers = {};
 
-   @override
+  Future<void> _loadMarkersFromAsset() async {
+  final jsonString = await rootBundle.loadString('assets/locations.json');
+  final data = json.decode(jsonString);
+  final latitudes = Map<String, dynamic>.from(data['Latitude']);
+  final longitudes = Map<String, dynamic>.from(data['Longitude']);
+
+  final markers = <Marker>[];
+  for (var i = 0; i < latitudes.length; i++) {
+    final latitude = latitudes[i.toString()] as double?;
+    final longitude = longitudes[i.toString()] as double?;
+
+    if (latitude != null && longitude != null) {
+      markers.add(
+        Marker(
+          markerId: MarkerId('marker$i'),
+          position: LatLng(latitude, longitude),
+          infoWindow: InfoWindow(
+            title: 'Rough Road',
+            snippet: 'This road has potholes.',
+          ),
+        ),
+      );
+    }
+  }
+
+  setState(() {
+    _markers.addAll(markers);
+  });
+}
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMarkersFromAsset();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // build the widget tree using the _markers set
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rough Road Locations'),
       ),
       body: GoogleMap(
         initialCameraPosition: const CameraPosition(
-          target: LatLng(42.3505, -71.1054), // initial location on the map
-          zoom: 15, // zoom level
+          target: LatLng(42.3505, -71.1054),
+          zoom: 15,
         ),
-        mapType: MapType.normal, // map type
-        myLocationEnabled: true, // enable current location button
+        mapType: MapType.normal,
+        myLocationEnabled: true,
         markers: _markers,
       ),
     );
   }
 }
+
+
 
 
 
