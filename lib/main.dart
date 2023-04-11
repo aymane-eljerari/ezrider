@@ -24,6 +24,41 @@ late List<CameraDescription> _cameras;
 var uuid = generateRandomString(30);
 late Directory appDocDir;
 
+void _showManual(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Welcome to EZRider!'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('HOW TO USE:'),
+              Text('1. Place your phone in a rigid dashboard mount with the camera facing the road in front of you.\n'),
+              Text('2. Press "Record" to start collecting accelerometer, GPS, and image data.\n'),
+              Text('3. Press "Stop Recording" to turn off data collection.  If the data is good, store it locally.  If not, delete it.\n'),
+              Text('4. Once the data is stored locally, you can then press "Upload" to send it to our database.\n'),
+              Text('***IF THE DATA IS NOT STORED LOCALLY, IT WILL NOT UPLOAD TO DATABASE***\n'),
+              Text('5. Press "Delete" to clear all data stored after upload.\n'),
+              Text('Note: Please scroll down while in landscape orientation to view buttons.\n'),
+              Text("Let's find some rough roads!")
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
 // entry point of app
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -141,22 +176,54 @@ class _DataPageState extends State<DataPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('EZRider'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.help_outline),
+            onPressed: () {
+              _showManual(context);
+            },
+          ),
+        ],
       ),
       body: Center(
         child: BlocBuilder<DataCubit, DataState>(
           bloc: _dataCubit,
           builder: (context, state) {
             if (state is Recording) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: CameraPreview(controller),
-                  ),
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Padding(
+                      padding: EdgeInsets.all(screenSize.width * 0.025),
+                      child: OrientationBuilder(
+                        builder: (context, orientation) {
+                          double width, height;
+                          if (orientation == Orientation.portrait) {
+                            width = screenSize.width * 0.9;
+                            height = screenSize.width * 0.9;
+                          } else {
+                            width = screenSize.height * 0.0001;
+                            height = screenSize.height * 0.0001;
+                          }
+                          return SizedBox(
+                            width: width,
+                            height: height,
+                            child: ClipRect(
+                              child: OverflowBox(
+                                minWidth: width,
+                                minHeight: height,
+                                child: CameraPreview(controller),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   const Text(
                     'Accelerometer Data:',
                     style: TextStyle(fontSize: 20),
@@ -263,6 +330,7 @@ class _DataPageState extends State<DataPage> with WidgetsBindingObserver {
                     ],
                   )
                 ],
+              )
               );
             } else {
               return const Text(
