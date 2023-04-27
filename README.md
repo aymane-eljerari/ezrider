@@ -24,5 +24,5 @@ We store images of the roads you are driving on, 3 dimensional accelerometer dat
 ![Image3](screenshots/IMG_6511.PNG)
 
 
-# [Pothole Recognition](https://github.com/aymane-eljerari/pothole-localization)
-
+# Pothole Recognition Repository
+[This](https://github.com/aymane-eljerari/pothole-localization) respository contains a CNN model trained on open source datasets 
