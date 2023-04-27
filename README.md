@@ -19,6 +19,10 @@ The data we store is completely anonymous. Here is a JSON object showing a sampl
 ```
 We store images of the roads you are driving on, 3 dimensional accelerometer data and latitude and longitude using your GPS location. There is no link between the user and the stored data making it completely anonymous. 
 
-## App Screenshots
+# App Screenshots
 
 ![Image3](screenshots/IMG_6511.PNG)
+
+
+# [Pothole Recognition](https://github.com/aymane-eljerari/pothole-localization)
+
