@@ -12,7 +12,7 @@ In order to appeal to a broader user base, we had to develop the mobile using a 
 
 ## Cloud Storage
 
-To go along with Flutter, we chose Firebase as our cloud backend to store the collected data. The three data streams we collect are anonymized such that each user data collection session is given an unidentifiable random string of characters. The data is stored using key, value pair approach, for each image taken, we store a JSON map containing x, y, z accelerometer data and latitude, longitude gps location.
+To go along with Flutter, we chose Firebase as our cloud backend to store the collected data. The three data streams we collect are anonymized such that each user data collection session is given an unidentifiable random string of characters. The data is stored using key value pair approach, for each image taken, we store a JSON map containing x, y, z accelerometer data and latitude, longitude gps location. Furthermore, the files stored in firebase can be easily downloaded onto a user's local device using a python script we wrote and subsuquently fed into our ML models.
 
 ## Models Summary
 
