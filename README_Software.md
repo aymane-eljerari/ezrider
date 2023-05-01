@@ -57,3 +57,12 @@ Predicted positive sample
 
 The repo implementing this model can be found [here](https://github.com/balajisath/Road_Roughness_Mapping_System).
 
+## Setup
+
+There are two main python notebooks that implement the models. Both the notebooks are uploaded to the repository linked above. 
+
+Senior_Design_Model1_Accelerometer.ipynb implements the Z Peak algorithm trained on the accelerometer data points. We used Python 3.10.7 for executing the notebook. You would need to have the correct version of Python to run the notebook. The required libraries and modules are mentioned in the python notebooks. You can install packages for python using the pip command if needed.
+
+Senior_Design_InceptionV3.ipynb contains the code for training the Inception V3 neural network. Similarly, you would need to have the correct version of Python installed to execute the code. Use pip to install pacakages and modules required by the notebook. The list of necessary libraries is provided in the notebook. You would also need extended computational capacity (CPUs, GPUs) to train the neural network. Make sure the server or instance running the code has the required memory size and computational capabilities. 
+
+The collected data is stored to Firebase and is automatocally downloaded by the notebooks.
