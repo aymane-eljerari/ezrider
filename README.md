@@ -1,14 +1,14 @@
-# EzRider
+# EZRider
 
-EzRider is a road roughness mapping system developed that allows users to collect different data modalities for a pothole location and road roughness machine learning task. The system aims to help users and transportation agencies identify road quality issues and improve road maintenance. The application is developed using the Flutter framework and the collected data is stored on Google Firebase. The Inception V3 deep neural network and the Z Peak algorithm are leveraged to predict the locations of rough roads using the collected data. 
+EZRider is a road roughness mapping system developed that allows users to collect different data modalities for a pothole location and road roughness machine learning task. The system aims to help users and transportation agencies identify road quality issues and improve road maintenance. The application is developed using the Flutter framework and the collected data is stored on Google Firebase. The Inception V3 deep neural network and the Z Peak algorithm are leveraged to predict the locations of rough roads using the collected data. 
 
 ## Data Collection
 
 The app collects the following information:
 
-- Images: EzRider captures images of the roads the user is driving on.
+- Images: EZRider captures images of the roads the user is driving on.
 
-- Accelerometer data: EzRider records 3-dimensional accelerometer data, which provides information on the roughness of the road.
+- Accelerometer data: EZRider records 3-dimensional accelerometer data, which provides information on the roughness of the road.
 
 - GPS location: The app records the user's latitude and longitude using the phone's GPS. 
 
@@ -34,17 +34,17 @@ The collected data is uplaoded to Google Firebase for storage and processing. Th
 
 ## Installation and Usage
 
-To install EzRider, follow these steps:
+To install EZRider, follow these steps:
 
 1. Contact the owner of this repository to gain access of the app on TestFlight.
 2. Install TestFlight on your iPhone from the App Store.
 3. Open TestFlight and install the EZRider App.
 
-Once EzRider is installed, you can use it to collect data on road conditions as you drive. The app will capture images, accelerometer data, and GPS location when prompted, which can be used to identify potholes and rough road conditions. The aggregated data will be shown on a map platform supported by the google map API where the detected potholes will be displayed in a orderly fashion.
+Once EZRider is installed, you can use it to collect data on road conditions as you drive. The app will capture images, accelerometer data, and GPS location when prompted, which can be used to identify potholes and rough road conditions. The aggregated data will be shown on a map platform supported by the google map API where the detected potholes will be displayed in a orderly fashion.
 
 ## Future Developments
 
-In the future, we plan to add several new features and improvements to the EzRider app. Some of these include:
+In the future, we plan to add several new features and improvements to the EZRider app. Some of these include:
 
 - Improved machine learning algorithms to identify potholes and road roughness with higher accuracy.
 - Enhanced data visualization and analysis tools to help researchers and transportation agencies better understand road conditions.
@@ -57,7 +57,7 @@ We have created repositories that contain CNN models trained on open-source data
 
 ## Data Privacy and Security
 
-The data privacy and security of our users is of the utmost importance to us. EzRider anonymizes all user data to ensure that there is no connection between the data collected and the user.
+The data privacy and security of our users is of the utmost importance to us. EZRider anonymizes all user data to ensure that there is no connection between the data collected and the user.
 
 ## Screenshots
 
