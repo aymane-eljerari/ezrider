@@ -1,6 +1,6 @@
-# EzRider
+# EZRider
 
-A Flutter mobile app to collect different data modalities for a pothole location and road roughness deep learning task.
+A Flutter mobile app to collect different data modalities for a pothole location and road roughness machine learning task.
 
 # Data
 The data we store is completely anonymous. Here is a JSON object showing a sample data point:
