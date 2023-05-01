@@ -50,10 +50,11 @@ In the future, we plan to add several new features and improvements to the EZRid
 - Enhanced data visualization and analysis tools to help researchers and transportation agencies better understand road conditions.
 - Improved user interface and user experience to make the app more intuitive and user-friendly.
 
-## Pothole Recognition Repositories
+## Additional Repositories
 
 We have created repositories that contain CNN models trained on open-source datasets for pothole recognition. The repos can be found [here](https://github.com/aymane-eljerari/pothole-localization) and [here](https://github.com/balajisath/Road_Roughness_Mapping_System).
 
+Initially, we chose Expo for its cross-platform compatibility and quick set-up to build our mobile app. However, as none of us had extensive knowledge of JavaScript or Expo, we eventually made the decision to switch to Flutter. The repo for the Expo app can be found [here](https://github.com/hmyi/senior_design_mobile_app).
 
 ## Data Privacy and Security
 
