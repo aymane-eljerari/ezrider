@@ -1,6 +1,6 @@
 # EzRider
 
-EzRider is a mobile app developed using Flutter that allows users to collect different data modalities for a pothole location and road roughness deep learning task. The app aims to help users and transportation agencies identify road quality issues and improve road maintenance.
+EzRider is a road roughness mapping system developed that allows users to collect different data modalities for a pothole location and road roughness machine learning task. The system aims to help users and transportation agencies identify road quality issues and improve road maintenance. The application is developed using the Flutter framework and the collected data is stored on Google Firebase. The Inception V3 deep neural network and the Z Peak algorithm are leveraged to predict the locations of rough roads using the collected data. 
 
 ## Data Collection
 
@@ -27,6 +27,11 @@ Here is a JSON object showing a sample data point:
 }
 ```
 
+## Models Summary
+
+The collected data is uplaoded to Google Firebase for storage and processing. The Z Peak algorithm is trained on the collected accelerometer data points to predict rough road locations. The Inception V3 binary image classifier is trained on a pothole dataset found online. We conduct model inferencing using the Inception V3 net on the images collected through the application. We have provided a detailed explanation of the models in the READ_Software.md file.
+
+
 ## Installation and Usage
 
 To install EzRider, follow these steps:
@@ -45,9 +50,10 @@ In the future, we plan to add several new features and improvements to the EzRid
 - Enhanced data visualization and analysis tools to help researchers and transportation agencies better understand road conditions.
 - Improved user interface and user experience to make the app more intuitive and user-friendly.
 
-## Pothole Recognition Repository
+## Pothole Recognition Repositories
 
-We have also created a repository that contains a CNN model trained on open-source datasets for pothole recognition. You can find the repository [here](https://github.com/aymane-eljerari/pothole-localization).
+We have created repositories that contain CNN models trained on open-source datasets for pothole recognition. The repos can be found [here](https://github.com/aymane-eljerari/pothole-localization) and [here](https://github.com/balajisath/Road_Roughness_Mapping_System).
+
 
 ## Data Privacy and Security
 
