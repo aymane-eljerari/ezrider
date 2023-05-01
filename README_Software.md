@@ -49,5 +49,11 @@ We downloaded the dataset from Kaggle to Google Drive through Kaggle's API and a
  
 The Inception V3 neural network gave >75% accuracy when tested on the images collected through our EZRider application.
 
+![testing1](images/testing1.jpg)             
+Predicted negative sample
+
+![testing2](images/testing2.jpg)    
+Predicted positive sample
+
 The repo implementing this model can be found [here](https://github.com/balajisath/Road_Roughness_Mapping_System).
 
